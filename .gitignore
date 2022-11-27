@@ -71,3 +71,7 @@ local.properties
 .metadata/version.ini
 KingOfMelones/bin/src/main/java/KingOfMelones/KingOfMelonesApplication.class
 KingOfMelones/bin/src/test/java/KingOfMelones/KingOfMelonesApplicationTests.class
+.metadata/.plugins/org.eclipse.jdt.core/variablesAndContainers.dat
+.metadata/.log
+.metadata/.plugins/org.eclipse.jdt.launching/.install.xml
+.metadata/.plugins/org.eclipse.m2e.core/workspaceState.ser
