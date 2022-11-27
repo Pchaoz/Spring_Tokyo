@@ -116,3 +116,6 @@ Java Model Exception: Error in Java Model (code 969): KingOfMelones [in src/main
 	at org.eclipse.equinox.launcher.Main.run(Main.java:1467)
 !SUBENTRY 1 org.eclipse.jdt.core 4 969 2022-11-27 17:18:52.696
 !MESSAGE KingOfMelones [in src/main/java/KingOfMelones [in KingOfMelones]] does not exist
+
+!ENTRY org.eclipse.ui 2 2 2022-11-27 17:20:59.696
+!MESSAGE Invalid property category path: org.springframework.ide.eclipse.beans.ui.properties.ProjectPropertyPage (bundle: org.springframework.ide.eclipse.xml.namespaces, propertyPage: org.springframework.ide.eclipse.beans.ui.namespaces.projectPropertyPage)
