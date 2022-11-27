@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "jugadors")
 public class Jugador {
@@ -27,6 +29,7 @@ public class Jugador {
 	private String Cognom;
 
 	@OneToMany(mappedBy="jugador", cascade = CascadeType.ALL)
+	@JsonBackReference
 	private Set<Monstre> monstres;
 	
 	public Jugador() {

@@ -12,6 +12,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "monstres")
 public class Monstre {
@@ -23,10 +26,12 @@ public class Monstre {
 	
 	@ManyToOne
 	@JoinColumn(name="ID_Partida")
+	@JsonManagedReference
 	private Partida partida;
 	
 	@ManyToOne
 	@JoinColumn(name="ID_Jugador")
+	@JsonManagedReference
 	private Jugador jugador;
 	//Limitar 50 caracteres
 	@Column(name="nom", nullable = false)
@@ -53,9 +58,11 @@ public class Monstre {
 	// NO POSAR CASCADETYPE EN EL CHILD JA QUE SI NO DONA ERROR DE PERSISTENCIA (detached entity passed to persist)
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="id_monstreCarta")
+	@JsonManagedReference
 	private Monstre monstreCarta;
 	
 	@OneToOne(cascade = CascadeType.ALL, mappedBy="monstreCarta")
+	@JsonBackReference
 	private Monstre monstreCartaAssignat;
 
 	public Monstre() {

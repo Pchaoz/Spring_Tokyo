@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "partides")
 public class Partida {
@@ -29,6 +31,7 @@ public class Partida {
 	private int Njugadors;
 
 	@OneToMany(mappedBy="partida", cascade = CascadeType.ALL)
+	@JsonBackReference
 	private Set<Monstre> monstres;
 	
 	public int getPartidaID() {
