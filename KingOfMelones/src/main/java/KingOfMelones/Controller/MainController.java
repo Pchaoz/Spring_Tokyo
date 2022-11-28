@@ -1,10 +1,15 @@
 package KingOfMelones.Controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import KingOfMelones.Model.Jugador;
+import KingOfMelones.Model.Monstre;
 import KingOfMelones.Services.JugadorServices;
 import KingOfMelones.Services.MonstreServices;
 import KingOfMelones.Services.PartidaServices;
@@ -33,5 +38,18 @@ public class MainController {
 	}
 	
 	
-
+	@GetMapping(path="/ListarMonstreJugador/{id}")
+	public @ResponseBody String ListarMonstreJugador(@PathVariable int id){
+		Jugador jugadorBuscado=jugadorServices.findById(id);
+		List<Monstre> LlistaMonstres= monstreServices.findByjugador(jugadorBuscado);
+		Monstre monstreFinal =LlistaMonstres.get(0);
+		
+		if(monstreFinal!=null) {
+			return("El nom del monstre es "+monstreFinal.getNom()+" ,la seva vida actual es de "+monstreFinal.getVides()+", la seva energia actual es de "
+					+monstreFinal.getEnergia()+" i els seus punts de victoria actuals es de "+monstreFinal.getP_victoria()+".");
+		}else {
+			return ("Monstre no trobat!");
+		}
+	
+	}
 }

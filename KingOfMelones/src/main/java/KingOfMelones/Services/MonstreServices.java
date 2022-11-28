@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import KingOfMelones.Model.Jugador;
 import KingOfMelones.Model.Monstre;
 import KingOfMelones.Repositoris.MonstreRepository;
 
@@ -32,5 +33,7 @@ public class MonstreServices {
 	public Monstre editar(Monstre m) {
 		return repository.save(m);
 	}
-	
+	public List<Monstre> findByjugador(Jugador jugador){
+		return repository.findByjugador(jugador);
+	}
 }
