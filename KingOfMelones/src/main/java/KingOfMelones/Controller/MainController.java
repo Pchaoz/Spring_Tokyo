@@ -1,10 +1,13 @@
 package KingOfMelones.Controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import KingOfMelones.Model.Monstre;
 import KingOfMelones.Services.JugadorServices;
 import KingOfMelones.Services.MonstreServices;
 import KingOfMelones.Services.PartidaServices;
@@ -32,6 +35,9 @@ public class MainController {
 		
 	}
 	
-	
+	@GetMapping(path = "/getTokio") // Map de prova, landing
+	public @ResponseBody List<Monstre> isTokio() {
+		return monstreServices.findByToquio();
+	}	
 
 }

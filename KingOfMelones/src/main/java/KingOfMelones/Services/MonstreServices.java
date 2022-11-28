@@ -33,4 +33,7 @@ public class MonstreServices {
 		return repository.save(m);
 	}
 	
+	public List<Monstre> findByToquio() {
+		return repository.findByToquio(true);
+	}
 }
