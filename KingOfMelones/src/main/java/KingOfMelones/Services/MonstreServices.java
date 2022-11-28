@@ -33,4 +33,8 @@ public class MonstreServices {
 		return repository.save(m);
 	}
 	
+	public List<Monstre> findByEleminat(boolean bool) {
+		return repository.findByEleminat(bool);
+	}
+		
 }
