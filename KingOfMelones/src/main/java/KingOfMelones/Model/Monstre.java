@@ -31,7 +31,6 @@ public class Monstre {
 	
 	@ManyToOne
 	@JoinColumn(name="ID_Jugador")
-	@JsonManagedReference
 	private Jugador jugador;
 	//Limitar 50 caracteres
 	@Column(name="nom", nullable = false)

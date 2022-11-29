@@ -31,7 +31,6 @@ public class Partida {
 	private int Njugadors;
 
 	@OneToMany(mappedBy="partida", cascade = CascadeType.ALL)
-	@JsonBackReference
 	private Set<Monstre> monstres;
 	
 	public int getPartidaID() {
