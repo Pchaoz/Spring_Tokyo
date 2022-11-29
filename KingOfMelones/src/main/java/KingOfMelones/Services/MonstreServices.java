@@ -33,8 +33,9 @@ public class MonstreServices {
 	public Monstre editar(Monstre m) {
 		return repository.save(m);
 	}
-	public List<Monstre> findByJugador(Jugador jugador){
-		return repository.findByJugador(jugador);
+
+	public List<Monstre> findByEleminatAndIsCarta(boolean bool, boolean bool2) {
+		return repository.findByEleminatAndIsCarta(bool, bool2);
 	}
 
 	/*public List<Monstre> findByEleminat(boolean bool) {
