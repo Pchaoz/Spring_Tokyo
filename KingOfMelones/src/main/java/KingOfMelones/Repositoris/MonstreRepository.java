@@ -9,5 +9,5 @@ import KingOfMelones.Model.Monstre;
 
 public interface MonstreRepository extends JpaRepository<Monstre,Integer>{
 
-	List<Monstre>findByjugador(Jugador jugador);
+	List<Monstre>findByJugador(Jugador jugador);
 }

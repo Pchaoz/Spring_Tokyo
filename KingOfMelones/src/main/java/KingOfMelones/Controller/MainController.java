@@ -31,9 +31,15 @@ public class MainController {
 		
 	}
 	
-	@GetMapping(path = "/error") // Map de prova, landing
+	@GetMapping(path = "/errorPenal") // Map de prova, landing
 	public @ResponseBody String error() {
 		return "Ups, ha hagut un errorsito";
+		
+	}
+	
+	@GetMapping(path = "/findAll") // Map de prova, landing
+	public @ResponseBody List<Monstre> findAll() {
+		return monstreServices.findAll();
 		
 	}
 	
@@ -41,7 +47,7 @@ public class MainController {
 	@GetMapping(path="/ListarMonstreJugador/{id}")
 	public @ResponseBody String ListarMonstreJugador(@PathVariable int id){
 		Jugador jugadorBuscado=jugadorServices.findById(id);
-		List<Monstre> LlistaMonstres= monstreServices.findByjugador(jugadorBuscado);
+		List<Monstre> LlistaMonstres= monstreServices.findByJugador(jugadorBuscado);
 		Monstre monstreFinal =LlistaMonstres.get(0);
 		
 		if(monstreFinal!=null) {

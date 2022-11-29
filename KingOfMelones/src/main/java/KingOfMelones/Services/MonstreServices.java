@@ -33,7 +33,7 @@ public class MonstreServices {
 	public Monstre editar(Monstre m) {
 		return repository.save(m);
 	}
-	public List<Monstre> findByjugador(Jugador jugador){
-		return repository.findByjugador(jugador);
+	public List<Monstre> findByJugador(Jugador jugador){
+		return repository.findByJugador(jugador);
 	}
 }
