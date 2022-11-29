@@ -9,7 +9,6 @@ import KingOfMelones.Model.Monstre;
 
 public interface MonstreRepository extends JpaRepository<Monstre,Integer>{
 
-	List<Monstre>findByJugador(Jugador jugador);
-	List<Monstre> findByEleminat(boolean bool);
+	List<Monstre> findByEleminatAndIsCarta(boolean bool, boolean bool2);
 
 }
