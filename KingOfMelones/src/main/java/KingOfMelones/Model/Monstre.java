@@ -31,6 +31,7 @@ public class Monstre {
 	
 	@ManyToOne
 	@JoinColumn(name="ID_Jugador")
+	@JsonManagedReference
 	private Jugador jugador;
 	//Limitar 50 caracteres
 	@Column(name="nom", nullable = false)
@@ -70,7 +71,6 @@ public class Monstre {
 	
 	public Monstre(Partida partida, String nom) {
 		super();
-		this.partida = partida;
 		this.nom = nom;
 		this.vides = 10;
 		this.p_victoria = 0;
@@ -82,7 +82,6 @@ public class Monstre {
 	public Monstre(Partida partida, Jugador jugador, String nom, int vides, int p_victoria, int energia, boolean toquio,
 			boolean eleminat, Monstre mons) {
 		super();
-		this.partida = partida;
 		this.jugador = jugador;
 		this.nom = nom;
 		this.vides = vides;
@@ -191,7 +190,7 @@ public class Monstre {
 
 	@Override
 	public String toString() {
-		return "Monstre [id_Monstre=" + id_monstre + ", partida=" + partida + ", jugador=" + jugador + ", nom=" + nom + ", vides="
+		return "Monstre [id_Monstre=" + id_monstre + /*", partida=" + partida + */", jugador=" + jugador + ", nom=" + nom + ", vides="
 				+ vides + ", p_victoria=" + p_victoria + ", energia=" + energia + ", toquio=" + toquio + ", eleminat="
 				+ eleminat + ", monstreCarta=" + monstreCarta + "]";
 	}

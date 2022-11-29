@@ -1,5 +1,6 @@
 package KingOfMelones.Model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -25,14 +26,24 @@ public class Partida {
 	private int partidaID;
 	
 	@Column(name = "Torn")
-	private int Nom;
+	private int Torn;
 
-	@Column(name = "Numero Jugadors",length=1)
+	@Column(name = "NumeroJugadors",nullable=true)
 	private int Njugadors;
 
 	@OneToMany(mappedBy="partida", cascade = CascadeType.ALL)
+	@JsonBackReference
 	private Set<Monstre> monstres;
 	
+	
+	
+	public Partida() {
+		super();
+		monstres=new HashSet<Monstre>();
+		Torn=0;
+		Njugadors=0;
+	}
+
 	public int getPartidaID() {
 		return partidaID;
 	}
@@ -41,14 +52,16 @@ public class Partida {
 		this.partidaID = partidaID;
 	}
 
-	public int getNom() {
-		return Nom;
+	public int getTorn() {
+		return Torn;
 	}
 
-	public void setNom(int nom) {
-		Nom = nom;
+	public void setTorn(int torn) {
+		Torn = torn;
 	}
 
+	
+	
 	public int getNjugadors() {
 		return Njugadors;
 	}
@@ -57,9 +70,17 @@ public class Partida {
 		Njugadors = njugadors;
 	}
 
+	public Set<Monstre> getMonstres() {
+		return monstres;
+	}
+
+	public void setMonstres(Set<Monstre> monstres) {
+		this.monstres = monstres;
+	}
+
 	@Override
 	public String toString() {
-		return "Partida [partidaID=" + partidaID + ", Nom=" + Nom + ", Njugadors=" + Njugadors + "]";
+		return "Partida [partidaID=" + partidaID + ", Nom=" + Torn + ", Njugadors=" + Njugadors + "]";
 	}
 
 	
