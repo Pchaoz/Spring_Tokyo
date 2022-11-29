@@ -37,8 +37,8 @@ public class MonstreServices {
 		return repository.findByJugador(jugador);
 	}
 
-	/*public List<Monstre> findByEleminat(boolean bool) {
+	public List<Monstre> findByEleminat(boolean bool) {
 		return repository.findByEleminat(bool);
-	}*/
+	}
 
 }
