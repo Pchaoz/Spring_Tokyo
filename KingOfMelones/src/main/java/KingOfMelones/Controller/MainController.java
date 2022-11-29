@@ -55,6 +55,8 @@ public class MainController {
 		monstreServices.editar(monstreAleatori);
 
 		return "S' ha mogut el monstre " + monstreAleatori.getNom() + " a Tokio";
+
+
 	}
 
 
@@ -66,11 +68,13 @@ public class MainController {
 		Monstre monstreFinal =LlistaMonstres.get(0);
 
 		if(monstreFinal!=null) {
-			return("El nom del monstre es "+monstreFinal.getNom()+" ,la seva vida actual es de "+monstreFinal.getVides()+", la seva energia actual es de "
+			return("El nom del monstre es "+monstreFinal.getNom()+", la seva vida actual es de "+monstreFinal.getVides()+", la seva energia actual es de "
 					+monstreFinal.getEnergia()+" i els seus punts de victoria actuals es de "+monstreFinal.getP_victoria()+".");
 		}else {
 			return ("Monstre no trobat!");
 		}
 
 	}
+
+
 }
