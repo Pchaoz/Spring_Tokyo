@@ -78,8 +78,8 @@ public class MainController {
 
 	@GetMapping(path="/ListMonstresVius")
 	public @ResponseBody List <Monstre>findVius(){
-		List <Monstre> monstresVius=monstreServices.findByEleminat(false);
-
+		List <Monstre> monstresVius=monstreServices.findByEleminatAndIsCarta(false,false);
+		
 		return monstresVius;
 	}
 }
