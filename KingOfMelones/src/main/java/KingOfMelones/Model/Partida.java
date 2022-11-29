@@ -27,7 +27,7 @@ public class Partida {
 	@Column(name = "Torn")
 	private int Nom;
 
-	@Column(name = "Numero Jugadors",length=1)
+	@Column(name = "NumeroJugadors",nullable=true)
 	private int Njugadors;
 
 	@OneToMany(mappedBy="partida", cascade = CascadeType.ALL)

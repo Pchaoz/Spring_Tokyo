@@ -1,6 +1,7 @@
 package KingOfMelones.Controller;
 
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,8 @@ public class MainController {
 	@Autowired
 	MonstreServices monstreServices;
 	
+	Random rand = new Random();
+	
 	@GetMapping(path = "/") // Map de prova, landing
 	public @ResponseBody String welcome() {
 		return "<h1> Funciona </h1>";
@@ -37,13 +40,12 @@ public class MainController {
 	
 	@GetMapping(path = "/SetMonstreTokioAleatori") // Funció MonstreTokioAleatori
 	public @ResponseBody String SetMonstreTokioAleatori() {
-		MonstreServices monstreServices = new MonstreServices();
-		List<Monstre> llistaMonstres = monstreServices.findByEleminat(false);
-		int random = (int) Math.random() * llistaMonstres.size();
+		List<Monstre> llistaMonstres = monstreServices.findByEleminatAndIsCarta(false, false);
+		int random = rand.nextInt(llistaMonstres.size());
 		Monstre monstreAleatori = llistaMonstres.get(random);
-		monstreServices.editar(monstreAleatori).setToquio(true);
-		
-		
+		monstreAleatori.setToquio(true);
+		monstreServices.editar(monstreAleatori);
+				
 		return "S' ha mogut el monstre " + monstreAleatori.getNom() + " a Tokio";
 	}
 	

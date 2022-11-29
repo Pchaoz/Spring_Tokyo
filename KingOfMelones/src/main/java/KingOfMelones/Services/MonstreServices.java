@@ -33,8 +33,8 @@ public class MonstreServices {
 		return repository.save(m);
 	}
 	
-	public List<Monstre> findByEleminat(boolean bool) {
-		return repository.findByEleminat(bool);
+	public List<Monstre> findByEleminatAndIsCarta(boolean bool, boolean bool2) {
+		return repository.findByEleminatAndIsCarta(bool, bool2);
 	}
 		
 }
