@@ -78,6 +78,7 @@ public class MainController {
 
 	@GetMapping(path="/ListMonstresVius")
 	public @ResponseBody List <Monstre>findVius(){
+		//aqui hay que actualizar los monstrups vivos
 		List <Monstre> monstresVius=monstreServices.findByEleminatAndIsCarta(false,false);
 		
 		return monstresVius;
