@@ -29,6 +29,7 @@ public class Jugador {
 	private String Cognom;
 
 	@OneToMany(mappedBy="jugador", cascade = CascadeType.ALL)
+	@JsonBackReference
 	private Set<Monstre> monstres;
 	
 	public Jugador() {

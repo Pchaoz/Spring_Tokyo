@@ -44,14 +44,16 @@ public class MainController {
 	}
 	@GetMapping(path = "/SetMonstreTokioAleatori") // Funció MonstreTokioAleatori
 	public @ResponseBody String SetMonstreTokioAleatori() {
-		MonstreServices monstreServices = new MonstreServices();
+		/*MonstreServices monstreServices = new MonstreServices();
 		List<Monstre> llistaMonstres = monstreServices.findByEleminat(true);
 		int random = (int) Math.random() * llistaMonstres.size();
 		Monstre monstreAleatori = llistaMonstres.get(random);
 		monstreServices.editar(monstreAleatori).setToquio(true);
 
 
-		return "S' ha mogut el monstre " + monstreAleatori.getNom() + " a Tokio";
+		return "S' ha mogut el monstre " + monstreAleatori.getNom() + " a Tokio";*/
+		
+		return "a";
 	}
 
 
