@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import KingOfMelones.Model.Jugador;
@@ -76,7 +77,6 @@ public class MainController {
 		}
 
 	}
-
 	@GetMapping(path="/ListMonstresVius")
 	public @ResponseBody List <Monstre>findVius(){
 		//aqui hay que actualizar los monstrups vivos
@@ -356,5 +356,145 @@ public class MainController {
 			contarTorn++;
 		}
 		return "Es el torn del monstre " + mons.getNom();		
+	}
+	@GetMapping(path = "/getTokio") // Map de prova, landing
+	public @ResponseBody List<Monstre> isTokio() {
+		return monstreServices.findByToquio();
+	}
+	
+	@GetMapping(path = "/actualitzarVius") // Map de prova, landing
+	public @ResponseBody String updateVius() {
+		
+		List<Monstre> mons = monstreServices.findByVides();
+		
+		for (Monstre monstre : mons) {
+			monstre.setEleminat(true);
+			monstreServices.editar(monstre);
+		}
+		return "Monstres editats correctament" ;
+	}
+	
+	@GetMapping(path = "/alguienEnTokyo") // Map de prova, landing
+	public @ResponseBody String checkTokyo() {
+		
+		List<Monstre> mons = monstreServices.findByToquio();
+		
+		if (mons.size() > 0) {
+			return "Hi ha el monstre " + mons.get(0).getNom() + " ocupant tokyo.";
+		}else {
+			return "No hi ha ningu a tokyo.";
+		}
+		
+	}
+
+	
+	@GetMapping(path="/ComprarCarta")
+	public @ResponseBody String comprarCarta(@RequestParam int idMonstre, @RequestParam int idMonstreCarta) {
+		List<Monstre> monstresVius = monstreServices.findByEleminatAndIsCarta(false, false);
+		List<Monstre> monstreCartaDisponible = monstreServices.findByIsCartaAndMonstreCarta(true, null);
+		Monstre monstreCompra = null;
+		Monstre monstreCarta = null;
+		for (Monstre monstre : monstresVius) {
+			if(monstre.getId() == idMonstre) {
+				monstreCompra = monstre;
+			}
+		}
+		for (Monstre monstre : monstreCartaDisponible) {
+			if(monstre.getId() == idMonstreCarta) {
+				monstreCarta = monstre;
+			}
+		}
+		
+		if(monstreCompra != null && monstreCarta != null) {
+			if(monstreCompra.getEnergia() >= monstreCarta.getEnergia()) {
+				monstreCompra.setEnergia( monstreCompra.getEnergia() - monstreCarta.getEnergia() );
+				monstreCompra.setMonstreCarta(monstreCarta);
+				monstreCarta.setMonstreCarta(monstreCompra);
+				monstreServices.editar(monstreCarta);
+				monstreServices.editar(monstreCompra);
+				return "El monstre " + monstreCompra.getNom() + " ha comprat la carta " + monstreCarta.getNom() + " per un valor de " + monstreCarta.getEnergia() + " d' energia. <br>"
+						+ " Abans tenia " + (monstreCompra.getEnergia() + monstreCarta.getEnergia()) + " i ara es queda amb " + monstreCompra.getEnergia() + " d' energia.";
+			} else {
+				return "El monstre no té suficient energia";
+			}
+		} else if (monstreCarta == null) {
+			return "Aquesta carta no està disponible, la té un altre monstre assignada";
+		} else if (monstreCompra == null) {
+			return "Aquest monstre està mort, per tant no pot comprar cartes";
+		}
+		return "Hi ha algún error";
+	}
+	
+	@GetMapping(path="/UtilitzarCartaPoder")
+	public @ResponseBody String utilitzarCartaPoder(@RequestParam int idMonstre, @RequestParam int idMonstre2) {
+		List<Monstre> monstresVius = monstreServices.findByEleminatAndIsCarta(false, false);
+		Monstre monstreAmbCarta = null;
+		Monstre monstreTarget = null;
+		for (Monstre monstre : monstresVius) {
+			if(monstre.getId() == idMonstre) {
+				monstreAmbCarta = monstre;
+			} else if (monstre.getId() == idMonstre2) {
+				monstreTarget = monstre;
+			}
+		}
+		if( monstreAmbCarta.getNom().equals(monstreTarget.getNom())) {
+			return "El monstre atacant no pot ser el mateix que l' objectiu!";
+		} else if( monstreAmbCarta.getMonstreCarta() == null) {
+			return "El monstre atacant no té cap carta comprada! Compra una carta abans.";
+		} else {
+			Monstre cartaPoder = monstreAmbCarta.getMonstreCarta();
+			if(cartaPoder.getNom().contains("Aliento")) {
+				List<Monstre> monstresContrincants = monstreServices.findByEleminatAndIsCarta(false, false);
+				for (Monstre monstre : monstresContrincants ) {
+					if(monstre.getId() != monstreAmbCarta.getId()) {
+						monstre.setVides(monstre.getVides() - 1);
+						monstreServices.editar(monstre);
+					}
+				}
+				cartaPoder.setMonstreCarta(null);
+				monstreAmbCarta.setMonstreCarta(null);
+				monstreServices.editar(cartaPoder);
+				monstreServices.editar(monstreAmbCarta);
+				return "El monstre " + monstreAmbCarta.getNom() + " utilitza la carta " + cartaPoder.getNom() + " i fa 1 punt de dany als monstres contrincants. S' allibera la carta.";
+			}
+			if(cartaPoder.getNom().contains("Mimetismo")) {
+				int vida1 = monstreAmbCarta.getVides();
+				int vida2 = monstreTarget.getVides();
+				int victoria1 = monstreAmbCarta.getP_victoria();
+				int victoria2 = monstreTarget.getP_victoria();
+				monstreAmbCarta.setVides(vida2);
+				monstreAmbCarta.setP_victoria(victoria2);
+				monstreTarget.setVides(vida1);
+				monstreTarget.setP_victoria(victoria1);
+				cartaPoder.setMonstreCarta(null);
+				monstreAmbCarta.setMonstreCarta(null);
+				monstreServices.editar(cartaPoder);
+				monstreServices.editar(monstreTarget);
+				monstreServices.editar(monstreAmbCarta);
+				return "El monstre " + monstreAmbCarta.getNom() + " utilitza la carta " + cartaPoder.getNom() + " i intercanvia la seva vida " + vida1 + "i els seus punts de victoria " + victoria1
+						+ " pels del monstre " + monstreTarget.getNom() + ". Ara té " + vida2 + " de vida i " + victoria2 + " punts de victoria.";
+			}
+			if(cartaPoder.getNom().contains("Rayo Reductor")) {
+				monstreTarget.setVides(monstreTarget.getVides() -1);
+				cartaPoder.setMonstreCarta(null);
+				monstreAmbCarta.setMonstreCarta(null);
+				monstreServices.editar(cartaPoder);
+				monstreServices.editar(monstreTarget);
+				monstreServices.editar(monstreAmbCarta);
+				return "El monstre " + monstreAmbCarta.getNom() + " utilitza la carta " + cartaPoder.getNom() + " contra el monstre " + monstreTarget.getNom() + " i li treu 1 punt de vida. "
+						+ "Tenia " + (monstreTarget.getVides() + 1) + " i ara té " + monstreTarget.getVides();
+			}
+			if(cartaPoder.getNom().contains("Monstruo Escupidor")) {
+				monstreTarget.setP_victoria(monstreTarget.getP_victoria() - 1);
+				cartaPoder.setMonstreCarta(null);
+				monstreAmbCarta.setMonstreCarta(null);
+				monstreServices.editar(cartaPoder);
+				monstreServices.editar(monstreTarget);
+				monstreServices.editar(monstreAmbCarta);
+				return "El monstre " + monstreAmbCarta.getNom() + " utilitza la carta " + cartaPoder.getNom() + " contra el monstre " + monstreTarget.getNom() + " i li treu 1 punt de victoria. "
+						+ "Tenia " + (monstreTarget.getP_victoria() + 1) + " i ara té " + monstreTarget.getP_victoria();
+			}
+		}
+		return "Hi ha algún error";
 	}
 }

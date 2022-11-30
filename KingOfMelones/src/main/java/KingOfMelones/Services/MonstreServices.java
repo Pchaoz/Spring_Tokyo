@@ -46,11 +46,20 @@ public class MonstreServices {
 		return repository.findByEleminatAndIsCartaOrderByPvictoriaDesc(bool, bool2);
 	}
 
+
 	public List<Monstre> findByIsCartaAndMonstreCarta(boolean bool, Monstre mons) {
 		return repository.findByIsCartaAndMonstreCarta(bool, mons);
 	};
+
+	public List<Monstre> findByToquio() {
+		return repository.findByToquio(true);
+	}
 	
 	public Monstre findByToquio() {
 		return repository.findByToquio(true);
 	}
+	public List<Monstre> findByVides() {
+		return repository.findByVides(0);
+	}
+
 }
