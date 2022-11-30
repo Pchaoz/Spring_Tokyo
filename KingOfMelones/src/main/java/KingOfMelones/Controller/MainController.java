@@ -76,7 +76,6 @@ public class MainController {
 		}
 
 	}
-
 	@GetMapping(path="/ListMonstresVius")
 	public @ResponseBody List <Monstre>findVius(){
 		//aqui hay que actualizar los monstrups vivos
@@ -306,4 +305,34 @@ public class MainController {
 		}
 		return "Es el torn del monstre " + mons.getNom();		
 	}
+	@GetMapping(path = "/getTokio") // Map de prova, landing
+	public @ResponseBody List<Monstre> isTokio() {
+		return monstreServices.findByToquio();
+	}
+	
+	@GetMapping(path = "/actualitzarVius") // Map de prova, landing
+	public @ResponseBody String updateVius() {
+		
+		List<Monstre> mons = monstreServices.findByVides();
+		
+		for (Monstre monstre : mons) {
+			monstre.setEleminat(true);
+			monstreServices.editar(monstre);
+		}
+		return "Monstres editats correctament" ;
+	}
+	
+	@GetMapping(path = "/alguienEnTokyo") // Map de prova, landing
+	public @ResponseBody String checkTokyo() {
+		
+		List<Monstre> mons = monstreServices.findByToquio();
+		
+		if (mons.size() > 0) {
+			return "Hi ha el monstre " + mons.get(0).getNom() + " ocupant tokyo.";
+		}else {
+			return "No hi ha ningu a tokyo.";
+		}
+		
+	}
+
 }
