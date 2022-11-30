@@ -83,4 +83,23 @@ public class MainController {
 		
 		return monstresVius;
 	}
+	
+	@GetMapping(path="/CountMonstresVius")
+	public @ResponseBody String countMonstresVius(){
+		
+		List<Monstre> monstresVius = monstreServices.findByEleminatAndIsCarta(false, false);
+		int count = monstresVius.size();
+		
+		return "Queden " + count + " monstres vius.";
+	}
+	
+	@GetMapping(path="/MonstreViu")
+	public @ResponseBody Monstre monstreViu() {
+		List<Monstre> monstresVius = monstreServices.findByEleminatAndIsCarta(false, false);
+		if(monstresVius.size() == 1) {
+			return monstresVius.get(0);
+		} else {
+			return null;
+		}	
+	}
 }
