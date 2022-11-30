@@ -227,5 +227,28 @@ public class MainController {
 	String SumarPuntsMonstre(int id, int suma) {
 
 		return"";
+	@GetMapping(path="/MonstreMaxPuntVictoria")
+	public @ResponseBody Monstre monstreMaxPuntVictoria() {
+		List<Monstre> monstrePunts = monstreServices.findByEleminatAndIsCartaOrderByPvictoriaDesc(false, false);
+		Monstre mons = monstrePunts.get(0);	
+		return mons;
+	}
+	
+	@GetMapping(path="/ListMostresViusContrincants/{idMonstre}")
+	public @ResponseBody List<Monstre> listMonstresViusContrincants(@PathVariable int idMonstre) {
+		List<Monstre> monstresVius = monstreServices.findByEleminatAndIsCarta(false, false);
+		List<Monstre> monstresContrincants = new ArrayList<Monstre>();
+		for (Monstre monstre : monstresVius) {
+			if(monstre.getId() != idMonstre) {
+				monstresContrincants.add(monstre);
+			}
+		}
+		return monstresContrincants;
+	}
+	
+	@GetMapping(path="/ListMonstrePoderLliure")
+	public @ResponseBody List<Monstre> listMonstrePoderLliure() {
+		List<Monstre> monstresVius = monstreServices.findByIsCartaAndMonstreCarta(true, null);
+		return monstresVius;
 	}
 }

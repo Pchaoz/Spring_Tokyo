@@ -19,7 +19,7 @@ public class Jugador {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID_Jugador", nullable = false)
+	@Column(name = "IdJugador", nullable = false)
 	private int jugID;
 
 	@Column(name = "Nom", length = 50 , nullable = false)
