@@ -214,9 +214,11 @@ public class MainController {
 			// En cas de sumar punt d'Energia
 			if (resultadosDados.get(3) >= 1) {
 				fraseFinal += SumarPuntsEnergiaMonstre(monstreActual, resultadosDados.get(3));
-			} // En cas de que tingui garres if(resultadosDados.get(4)>=1) {
-				// MonstrePega(JugActiu,
-				// resultadosDados.get(4)); } //en cas de que tregui cors
+			} // En cas de que tingui garres
+			if (resultadosDados.get(4) >= 1) {
+				fraseFinal += MonstrePega(monstreActual, resultadosDados.get(4));
+			}
+			// en cas de que tregui cors
 			if (resultadosDados.get(5) >= 1) {
 				fraseFinal += MonstreCuracio(monstreActual, resultadosDados.get(5));
 			}
@@ -266,6 +268,55 @@ public class MainController {
 
 		return fraseRetorn;
 
+	}
+
+	String MonstrePega(Monstre monstreActual, int suma) {
+		String fraseRetorn = "";
+		if (monstreActual.isToquio()) {
+			fraseRetorn += "El monstre es troba a Tokyo i fará " + suma + " punts de mal als monstres de fora!<br>";
+			List<Monstre> monstresEnemics = listMonstresViusContrincants(monstreActual.getId());
+			for (Monstre monstreAtacat : monstresEnemics) {
+				fraseRetorn += "El monstre " + monstreAtacat.getNom() + " té de punts de vida "
+						+ monstreAtacat.getVides() + ".<br>";
+				monstreAtacat.setVides(monstreAtacat.getVides() - suma);
+				monstreServices.editar(monstreAtacat);
+				fraseRetorn += "Després de l'atac té de punts de vida " + monstreAtacat.getVides() + ".<br>";
+			}
+		} else {
+			fraseRetorn += "El monstre es troba fora de Tokyo i fará " + suma + " punts de mal al monstre de dins de Tokyo!<br>";
+			Monstre monstreTokyo = monstreServices.findByToquio();
+			fraseRetorn += "El monstre " + monstreTokyo.getNom() + " té de punts de vida "
+					+ monstreTokyo.getVides() + ".<br>";
+			monstreTokyo.setVides(monstreTokyo.getVides() - suma);
+			fraseRetorn += "Després de l'atac té de punts de vida " + monstreTokyo.getVides() + ".<br>";
+			if(monstreTokyo.getVides()<=0) {
+				monstreTokyo.setEleminat(true);
+				monstreTokyo.setToquio(false);
+				monstreServices.editar(monstreTokyo);
+				fraseRetorn += "El monstre "+monstreTokyo.getNom()+" mor per les seves ferides!<br>";
+				monstreActual.setToquio(true);
+				fraseRetorn +=" El monstre "+monstreActual.getNom()+" es el nou rey de Tokyo!<br>";
+				monstreServices.editar(monstreActual);
+			}else {
+				Random azar= new Random();
+				boolean meQuedo=azar.nextBoolean();
+				if(!meQuedo) {
+					monstreTokyo.setToquio(false);
+					monstreActual.setToquio(true);
+					fraseRetorn += "El monstre "+monstreTokyo.getNom()+" es un cobard i surt de Tokyo!<br>";
+					fraseRetorn += "El monstre "+monstreActual.getNom()+" es el nou rey de Tokyo!<br>";
+					monstreServices.editar(monstreTokyo);
+					monstreServices.editar(monstreActual);
+
+				}else {
+					fraseRetorn += "El monstre "+monstreTokyo.getNom()+" esta fet un toro, aguanta en Tokyo!<br>";
+				}
+			}
+			
+			
+		}
+
+		return fraseRetorn;
 	}
 
 	@GetMapping(path = "/MonstreMaxPuntVictoria")

@@ -50,4 +50,7 @@ public class MonstreServices {
 		return repository.findByIsCartaAndMonstreCarta(bool, mons);
 	};
 	
+	public Monstre findByToquio() {
+		return repository.findByToquio(true);
+	}
 }
