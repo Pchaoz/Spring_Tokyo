@@ -45,4 +45,8 @@ public class MonstreServices {
 	public List<Monstre> findByToquio() {
 		return repository.findByToquio(true);
 	}
+	
+	public List<Monstre> findByVides() {
+		return repository.findByVides(0);
+	}
 }
