@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import KingOfMelones.Model.Jugador;
@@ -141,5 +142,42 @@ public class MainController {
 			contarTorn++;
 		}
 		return "Es el torn del monstre " + mons.getNom();		
+	}
+	
+	@GetMapping(path="/ComprarCarta")
+	public @ResponseBody String comprarCarta(@RequestParam int idMonstre, @RequestParam int idMonstreCarta) {
+		List<Monstre> monstresVius = monstreServices.findByEleminatAndIsCarta(false, false);
+		List<Monstre> monstreCartaDisponible = monstreServices.findByIsCartaAndMonstreCarta(true, null);
+		Monstre monstreCompra = null;
+		Monstre monstreCarta = null;
+		for (Monstre monstre : monstresVius) {
+			if(monstre.getId() == idMonstre) {
+				monstreCompra = monstre;
+			}
+		}
+		for (Monstre monstre : monstreCartaDisponible) {
+			if(monstre.getId() == idMonstreCarta) {
+				monstreCarta = monstre;
+			}
+		}
+		
+		if(monstreCompra != null && monstreCarta != null) {
+			if(monstreCompra.getEnergia() >= monstreCarta.getEnergia()) {
+				monstreCompra.setEnergia( monstreCompra.getEnergia() - monstreCarta.getEnergia() );
+				monstreCompra.setMonstreCarta(monstreCarta);
+				monstreCarta.setMonstreCarta(monstreCompra);
+				monstreServices.editar(monstreCarta);
+				monstreServices.editar(monstreCompra);
+				return "El monstre " + monstreCompra.getNom() + " ha comprat la carta " + monstreCarta.getNom() + " per un valor de " + monstreCarta.getEnergia() + " d' energia. <br>"
+						+ " Abans tenia " + (monstreCompra.getEnergia() + monstreCarta.getEnergia()) + " i ara es queda amb " + monstreCompra.getEnergia() + " d' energia.";
+			} else {
+				return "El monstre no té suficient energia";
+			}
+		} else if (monstreCarta == null) {
+			return "Aquesta carta no està disponible, la té un altre monstre assignada";
+		} else if (monstreCompra == null) {
+			return "Aquest monstre està mort, per tant no pot comprar cartes";
+		}
+		return "Hi ha algún error";
 	}
 }
