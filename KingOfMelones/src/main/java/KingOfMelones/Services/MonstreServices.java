@@ -46,4 +46,8 @@ public class MonstreServices {
 		return repository.findByEleminatAndIsCartaOrderByPvictoriaDesc(bool, bool2);
 	}
 
+	public List<Monstre> findByIsCartaAndMonstreCarta(boolean bool, Monstre mons) {
+		return repository.findByIsCartaAndMonstreCarta(bool, mons);
+	};
+	
 }

@@ -122,4 +122,10 @@ public class MainController {
 		}
 		return monstresContrincants;
 	}
+	
+	@GetMapping(path="/ListMonstrePoderLliure")
+	public @ResponseBody List<Monstre> listMonstrePoderLliure() {
+		List<Monstre> monstresVius = monstreServices.findByIsCartaAndMonstreCarta(true, null);
+		return monstresVius;
+	}
 }
