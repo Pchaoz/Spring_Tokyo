@@ -27,7 +27,7 @@ public class MainController {
 	@Autowired
 	MonstreServices monstreServices;
 
-
+	int contarTorn = 0;
 	Random rand = new Random();
 
 	@GetMapping(path = "/") // Map de prova, landing
@@ -127,5 +127,19 @@ public class MainController {
 	public @ResponseBody List<Monstre> listMonstrePoderLliure() {
 		List<Monstre> monstresVius = monstreServices.findByIsCartaAndMonstreCarta(true, null);
 		return monstresVius;
+	}
+	
+	@GetMapping(path="/AssignarTorn")
+	public @ResponseBody String assignarTorn() {
+		List<Monstre> monstresVius = monstreServices.findByEleminatAndIsCarta(false, false);
+		Monstre mons;
+		if(contarTorn == monstresVius.size()) {
+			mons = monstresVius.get(0);
+			contarTorn = 1;
+		} else {
+			mons = monstresVius.get(contarTorn);
+			contarTorn++;
+		}
+		return "Es el torn del monstre " + mons.getNom();		
 	}
 }
