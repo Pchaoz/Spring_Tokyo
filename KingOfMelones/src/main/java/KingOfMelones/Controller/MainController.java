@@ -1,5 +1,6 @@
 package KingOfMelones.Controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -108,5 +109,17 @@ public class MainController {
 		List<Monstre> monstrePunts = monstreServices.findByEleminatAndIsCartaOrderByPvictoriaDesc(false, false);
 		Monstre mons = monstrePunts.get(0);	
 		return mons;
+	}
+	
+	@GetMapping(path="/ListMostresViusContrincants/{idMonstre}")
+	public @ResponseBody List<Monstre> listMonstresViusContrincants(@PathVariable int idMonstre) {
+		List<Monstre> monstresVius = monstreServices.findByEleminatAndIsCarta(false, false);
+		List<Monstre> monstresContrincants = new ArrayList<Monstre>();
+		for (Monstre monstre : monstresVius) {
+			if(monstre.getId() != idMonstre) {
+				monstresContrincants.add(monstre);
+			}
+		}
+		return monstresContrincants;
 	}
 }
