@@ -1,5 +1,6 @@
 package KingOfMelones.Controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -101,5 +102,48 @@ public class MainController {
 		} else {
 			return null;
 		}	
+	}
+	
+	@GetMapping(path="/TirarDaus")
+	public @ResponseBody List<Integer> resultadosDados(){
+		List<Integer> resultadosDados =new  ArrayList<Integer> ();
+		for (int i = 0; i < 6; i++) {
+			resultadosDados.add(0);
+		}
+		int var = 0;
+		Random azar = new Random();
+		int dau;
+		for (int i = 0; i < 6; i++) {
+			dau = azar.nextInt(1, 7);
+
+			switch (dau) {
+			case 1:
+				var = resultadosDados.get(0) + 1;
+				resultadosDados.set(0, var);
+				break;
+			case 2:
+				var = resultadosDados.get(1) + 1;
+				resultadosDados.set(1, var);
+				break;
+			case 3:
+				var = resultadosDados.get(2) + 1;
+				resultadosDados.set(2, var);
+				break;
+			case 4:
+				var = resultadosDados.get(3) + 1;
+				resultadosDados.set(3, var);
+				break;
+			case 5:
+				var = resultadosDados.get(4) + 1;
+				resultadosDados.set(4, var);
+				break;
+			case 6:
+				var = resultadosDados.get(5) + 1;
+				resultadosDados.set(5, var);
+				break;
+			}
+
+		}
+		return resultadosDados;
 	}
 }
