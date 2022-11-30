@@ -101,4 +101,11 @@ public class MainController {
 			return null;
 		}	
 	}
+	
+	@GetMapping(path="/MonstreMaxPuntVictoria")
+	public @ResponseBody Monstre monstreMaxPuntVictoria() {
+		List<Monstre> monstrePunts = monstreServices.findByEleminatAndIsCartaOrderByPvictoriaDesc(false, false);
+		Monstre mons = monstrePunts.get(0);	
+		return mons;
+	}
 }

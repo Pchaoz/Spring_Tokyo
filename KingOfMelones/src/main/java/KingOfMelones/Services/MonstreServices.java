@@ -36,12 +36,14 @@ public class MonstreServices {
 
 	public List<Monstre> findByEleminatAndIsCarta(boolean bool, boolean bool2) {
 		return repository.findByEleminatAndIsCarta(bool, bool2);
-	}
-
-	
+	}	
 	
 	public List<Monstre> findByJugador(Jugador jugador){
 		return repository.findByJugador(jugador);
+	}
+	
+	public List<Monstre> findByEleminatAndIsCartaOrderByPvictoriaDesc(boolean bool, boolean bool2) {
+		return repository.findByEleminatAndIsCartaOrderByPvictoriaDesc(bool, bool2);
 	}
 
 }

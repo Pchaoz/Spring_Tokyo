@@ -22,7 +22,7 @@ public class Partida {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID_Partida")
+	@Column(name = "IdPartida")
 	private int partidaID;
 	
 	@Column(name = "Torn")
