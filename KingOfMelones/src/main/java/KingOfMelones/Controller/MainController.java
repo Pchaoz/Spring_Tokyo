@@ -82,4 +82,13 @@ public class MainController {
 		
 		return monstresVius;
 	}
+	
+	@GetMapping(path="/CountMonstresVius")
+	public @ResponseBody String countMonstresVius(){
+		
+		List<Monstre> monstresVius = monstreServices.findByEleminatAndIsCarta(false, false);
+		int count = monstresVius.size();
+		
+		return "Queden " + count + " monstres vius.";
+	}
 }
