@@ -11,5 +11,6 @@ public interface MonstreRepository extends JpaRepository<Monstre,Integer>{
 
 	List<Monstre> findByEleminatAndIsCarta(boolean bool, boolean bool2);
 	List<Monstre>findByJugador(Jugador jugador);
+	List<Monstre> findByEleminatAndIsCartaOrderByPvictoriaDesc(boolean bool, boolean bool2);
 
 }
